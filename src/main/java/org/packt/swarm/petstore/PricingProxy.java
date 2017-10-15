@@ -15,14 +15,11 @@ public class PricingProxy {
     public PricingProxy() {
         pricingServiceHost = System.getenv("PRICING_SERVICE_SERVICE_HOST");
         pricingServicePort = System.getenv("PRICING_SERVICE_SERVICE_PORT");
-        System.out.println("HOST TO "+pricingServiceHost);
     }
 
     public Price getPrice(String name){
         Client client = ClientBuilder.newClient();
-        String address = "http://" + pricingServiceHost +":" + pricingServicePort + "/price/" + name;
-        System.out.println("ADDRESS TO "+address);
-        WebTarget target = client.target(address);
+        WebTarget target = client.target("http://" + pricingServiceHost +":" + pricingServicePort + "/price/" + name);
         return target.request(MediaType.APPLICATION_JSON).get(Price.class);
     }
 }

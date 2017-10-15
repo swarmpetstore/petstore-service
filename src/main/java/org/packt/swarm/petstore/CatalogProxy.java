@@ -22,14 +22,11 @@ public class CatalogProxy {
     public CatalogProxy() {
         catalogServiceHost = System.getenv("CATALOG_SERVICE_SERVICE_HOST");
         catalogServicePort = System.getenv("CATALOG_SERVICE_SERVICE_PORT");
-        System.out.println("HOST TO "+catalogServiceHost);
     }
 
     public List<Item> getAllItems(){
         Client client = ClientBuilder.newClient();
-        String address = "http://" + catalogServiceHost +":" + catalogServicePort + "/item/";
-        System.out.println("ADDRESS TO "+address);
-        WebTarget target = client.target(address);
+        WebTarget target = client.target("http://" + catalogServiceHost +":" + catalogServicePort + "/item/");
         return Arrays.asList(target.request(MediaType.APPLICATION_JSON).get(Item[].class));
     }
 

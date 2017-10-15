@@ -2,6 +2,8 @@ package org.packt.swarm.petstore;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 @ApplicationScoped
 public class PetstoreService {
@@ -14,12 +16,18 @@ public class PetstoreService {
 
 
 
-    public Pet getAvailablePets() {
-        String name = "hamster";
-        Price price = pricingProxy.getPrice(name);
-        Pet pet = new Pet();
-        pet.setName(name);
-        pet.setPrice(price.getPrice());
-        return pet;
+    public List<Pet> getAvailablePets() {
+        List<Pet> pets = new ArrayList<>();
+        for(Item item: catalogProxy.getAllItems()) {
+            Price price = pricingProxy.getPrice(item.getName());
+
+            Pet pet = new Pet();
+            pet.setName(item.getName());
+            pet.setPrice(price.getPrice());
+            pet.setQuantity(item.getQuantity());
+
+            pets.add(pet);
+        }
+        return pets;
     }
 }
