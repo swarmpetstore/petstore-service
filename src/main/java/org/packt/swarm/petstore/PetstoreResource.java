@@ -5,6 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Path("/")
 public class PetstoreResource {
@@ -15,7 +16,7 @@ public class PetstoreResource {
     @GET
     @Path("pet")
     @Produces(MediaType.APPLICATION_JSON)
-    public Pet searchById() {
+    public List<Pet> getAvailablePets() {
         return petstoreService.getAvailablePets();
     }
 

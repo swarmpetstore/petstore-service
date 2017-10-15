@@ -1,12 +1,25 @@
 package org.packt.swarm.petstore;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.client.Client;
+import javax.inject.Inject;
 
 @ApplicationScoped
 public class PetstoreService {
 
-    public Pet getAvailablePets(String name) {
-        Client clientBuilder =
+    @Inject
+    private CatalogProxy catalogProxy;
+
+    @Inject
+    private PricingProxy pricingProxy;
+
+
+
+    public Pet getAvailablePets() {
+        String name = "hamster";
+        Price price = pricingProxy.getPrice(name);
+        Pet pet = new Pet();
+        pet.setName(name);
+        pet.setPrice(price.getPrice());
+        return pet;
     }
 }

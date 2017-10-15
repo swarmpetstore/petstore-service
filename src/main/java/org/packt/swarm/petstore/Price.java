@@ -1,10 +1,8 @@
 package org.packt.swarm.petstore;
 
-public class Pet {
-
+public class Price {
 
     private String name;
-    private int quantity;
     private int price;
 
     public String getName() {
@@ -15,19 +13,12 @@ public class Pet {
         this.name = name;
     }
 
-    public int getPrice(){
+
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(int price){
+    public void setPrice(int price) {
         this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 }
