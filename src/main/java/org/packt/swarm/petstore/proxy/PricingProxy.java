@@ -1,4 +1,6 @@
-package org.packt.swarm.petstore;
+package org.packt.swarm.petstore.proxy;
+
+import org.packt.swarm.petstore.model.Price;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.client.Client;

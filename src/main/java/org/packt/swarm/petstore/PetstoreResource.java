@@ -1,5 +1,7 @@
 package org.packt.swarm.petstore;
 
+import org.packt.swarm.petstore.model.Pet;
+
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
