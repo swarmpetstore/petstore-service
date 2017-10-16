@@ -1,5 +1,11 @@
 package org.packt.swarm.petstore;
 
+import org.packt.swarm.petstore.model.Item;
+import org.packt.swarm.petstore.model.Pet;
+import org.packt.swarm.petstore.model.Price;
+import org.packt.swarm.petstore.proxy.CatalogProxy;
+import org.packt.swarm.petstore.proxy.PricingProxy;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;

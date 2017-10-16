@@ -1,4 +1,4 @@
-package org.packt.swarm.petstore;
+package org.packt.swarm.petstore.model;
 
 public class Price {
 
