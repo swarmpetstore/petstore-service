@@ -12,16 +12,21 @@ import javax.ws.rs.core.MediaType;
 @ApplicationScoped
 public class PricingProxy {
 
-    private String serviceHost;
+    private static final String SERVICE_NAME = "pricing-service";
+    private static final String NAMESPACE = "petstore";
+    private static final String SWARM_PORT = "8080";
+
+    private String targetPath;
 
     @PostConstruct
-    public void getHost() {
-        serviceHost = System.getenv("PRICING_SERVICE_SERVICE_HOST");
+    public void init() {
+        String hostname = SERVICE_NAME + "." + NAMESPACE + ".svc";
+        targetPath = hostname + ":" + SWARM_PORT;
     }
 
     public Price getPrice(String name){
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target("http://" + serviceHost +":8080/price/" + name);
+        WebTarget target = client.target(targetPath + "/price/" + name);
         return target.request(MediaType.APPLICATION_JSON).get(Price.class);
     }
 }
