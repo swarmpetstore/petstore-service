@@ -4,6 +4,7 @@ import org.packt.swarm.petstore.model.Item;
 import org.packt.swarm.petstore.model.Pet;
 import org.packt.swarm.petstore.model.Price;
 import org.packt.swarm.petstore.proxy.CatalogProxy;
+import org.packt.swarm.petstore.proxy.PaymentProxy;
 import org.packt.swarm.petstore.proxy.PricingProxy;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,6 +21,9 @@ public class PetstoreService {
     @Inject
     private PricingProxy pricingProxy;
 
+    @Inject
+    private PaymentProxy paymentProxy;
+
 
 
     public List<Pet> getAvailablePets() {
@@ -35,5 +39,9 @@ public class PetstoreService {
             pets.add(pet);
         }
         return pets;
+    }
+
+    public String buyPet(){
+        return paymentProxy.makePayment();
     }
 }
