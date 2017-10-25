@@ -22,4 +22,11 @@ public class PetstoreResource {
         return petstoreService.getAvailablePets();
     }
 
+    @GET
+    @Path("buy")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void buyPet(){
+        petstoreService.buyPet();
+    }
+
 }
