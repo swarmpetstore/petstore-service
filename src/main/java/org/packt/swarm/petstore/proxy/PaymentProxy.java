@@ -19,7 +19,7 @@ public class PaymentProxy {
     @PostConstruct
     public void init() {
         String hostname = SERVICE_NAME + "." + NAMESPACE + ".svc";
-        targetPath = hostname + ":" + SWARM_PORT;
+        targetPath = "http://" + hostname + ":" + SWARM_PORT;
     }
 
     public String makePayment(){
