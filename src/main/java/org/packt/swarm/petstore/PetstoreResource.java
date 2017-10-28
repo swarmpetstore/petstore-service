@@ -25,8 +25,8 @@ public class PetstoreResource {
     @GET
     @Path("buy")
     @Produces(MediaType.APPLICATION_JSON)
-    public void buyPet(){
-        petstoreService.buyPet();
+    public String buyPet(){
+        return petstoreService.buyPet();
     }
 
 }
