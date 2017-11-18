@@ -1,11 +1,15 @@
 package org.packt.swarm.petstore.proxy;
 
+import com.netflix.hystrix.HystrixCommand;
+import com.netflix.hystrix.HystrixCommandGroupKey;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import java.util.concurrent.Future;
 
 @ApplicationScoped
 public class PaymentProxy {
@@ -23,9 +27,25 @@ public class PaymentProxy {
     }
 
     public String makePayment(){
-        Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(targetPath+"/payment");
-        return target.request(MediaType.APPLICATION_JSON).get(String.class);
+        return new InvokeCommand("payment").execute();
+
+    }
+
+    private class InvokeCommand extends HystrixCommand<String> {
+
+        private final String name;
+
+        public InvokeCommand(String name) {
+            super(HystrixCommandGroupKey.Factory.asKey("Invocation"));
+            this.name = name;
+        }
+
+        @Override
+        protected String run() {
+            Client client = ClientBuilder.newClient();
+            WebTarget target = client.target(targetPath + "/payment");
+            return target.request(MediaType.APPLICATION_JSON).get(String.class);
+        }
     }
 
 }
