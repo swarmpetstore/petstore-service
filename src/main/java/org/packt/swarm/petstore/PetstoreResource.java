@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -22,11 +23,14 @@ public class PetstoreResource {
         return petstoreService.getAvailablePets();
     }
 
+
     @GET
-    @Path("buy")
+    @Path("pay")
     @Produces(MediaType.APPLICATION_JSON)
-    public String buyPet(){
-        return petstoreService.buyPet();
+    public void pay(@QueryParam("customerId") int customerId){
+        petstoreService.pay(customerId);
     }
+
+
 
 }

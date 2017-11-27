@@ -7,9 +7,9 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import java.util.concurrent.Future;
 
 @ApplicationScoped
 public class PaymentProxy {
@@ -26,25 +26,29 @@ public class PaymentProxy {
         targetPath = "http://" + hostname + ":" + SWARM_PORT;
     }
 
-    public String makePayment(){
-        return new InvokeCommand("payment").execute();
+    public String makePayment(int orderId){
+        return new CreatePaymentCommand(orderId).execute();
 
     }
 
-    private class InvokeCommand extends HystrixCommand<String> {
+    private class CreatePaymentCommand extends HystrixCommand<String> {
 
-        private final String name;
+        private final int orderId;
 
-        public InvokeCommand(String name) {
-            super(HystrixCommandGroupKey.Factory.asKey("Invocation"));
-            this.name = name;
+        public CreatePaymentCommand(int orderId) {
+            super(HystrixCommandGroupKey.Factory.asKey(SERVICE_NAME));
+            this.orderId = orderId;
         }
 
         @Override
         protected String run() {
             Client client = ClientBuilder.newClient();
             WebTarget target = client.target(targetPath + "/payment");
-            return target.request(MediaType.APPLICATION_JSON).get(String.class);
+            target.queryParam("merchantId","1");
+            target.queryParam("description", "ORDER ID: "+orderId);
+            target.queryParam("amount", 10);
+            String paymentUID = target.request(MediaType.APPLICATION_JSON).post(Entity.entity("pies", MediaType.APPLICATION_JSON_TYPE), String.class);
+            return null;
         }
     }
 
