@@ -28,7 +28,10 @@ public class PaymentProxy {
 
     public String makePayment(int orderId){
         return new CreatePaymentCommand(orderId).execute();
+    }
 
+    public String checkStatus(String paymentUID){
+        return new CheckStatusCommand(paymentUID).execute();
     }
 
     private class CreatePaymentCommand extends HystrixCommand<String> {
@@ -47,8 +50,24 @@ public class PaymentProxy {
             target.queryParam("merchantId","1");
             target.queryParam("description", "ORDER ID: "+orderId);
             target.queryParam("amount", 10);
-            String paymentUID = target.request(MediaType.APPLICATION_JSON).post(Entity.entity("pies", MediaType.APPLICATION_JSON_TYPE), String.class);
-            return null;
+            return target.request(MediaType.APPLICATION_JSON).post(Entity.entity("pies", MediaType.APPLICATION_JSON_TYPE), String.class);
+        }
+    }
+
+    private class CheckStatusCommand extends HystrixCommand<String> {
+
+        private final String paymentUID;
+
+        public CheckStatusCommand(String paymentUID) {
+            super(HystrixCommandGroupKey.Factory.asKey(SERVICE_NAME));
+            this.paymentUID = paymentUID;
+        }
+
+        @Override
+        protected String run() {
+            Client client = ClientBuilder.newClient();
+            WebTarget target = client.target(targetPath + "/payment/"+paymentUID+"/status");
+            return target.request(MediaType.APPLICATION_JSON).get(String.class);
         }
     }
 

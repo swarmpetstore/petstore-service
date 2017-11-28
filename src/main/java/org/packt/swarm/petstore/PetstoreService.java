@@ -48,6 +48,7 @@ public class PetstoreService {
 
     public void pay(int customerId){
         Cart cart = cartProxy.getCart(5);
-        paymentProxy.makePayment(3);
+        String paymentUID =  paymentProxy.makePayment(3);
+        paymentProxy.checkStatus(paymentUID);
     }
 }
