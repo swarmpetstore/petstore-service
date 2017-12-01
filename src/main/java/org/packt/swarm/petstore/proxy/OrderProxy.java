@@ -24,7 +24,7 @@ public class OrderProxy {
         targetPath = "http://" + hostname + ":" + SWARM_PORT;
     }
 
-    public void createOrder(int customerId, List<Integer> itemIds, List<Integer> quantities){
+    public int createOrder(int customerId, List<Integer> itemIds, List<Integer> quantities){
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(targetPath+"/order");
 

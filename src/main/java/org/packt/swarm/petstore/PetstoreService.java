@@ -7,6 +7,7 @@ import org.packt.swarm.petstore.model.Pet;
 import org.packt.swarm.petstore.model.Price;
 import org.packt.swarm.petstore.proxy.CartProxy;
 import org.packt.swarm.petstore.proxy.CatalogProxy;
+import org.packt.swarm.petstore.proxy.OrderProxy;
 import org.packt.swarm.petstore.proxy.PaymentProxy;
 import org.packt.swarm.petstore.proxy.PricingProxy;
 
@@ -30,6 +31,9 @@ public class PetstoreService {
     @Inject
     private CartProxy cartProxy;
 
+    @Inject
+    private OrderProxy orderProxy;
+
 
 
     public List<Pet> getAvailablePets() {
@@ -49,10 +53,10 @@ public class PetstoreService {
 
     public void pay(int customerId){
         Cart cart = cartProxy.getCart(customerId);
-
-
-
+        
         String paymentUID =  paymentProxy.makePayment(3);
         paymentProxy.checkStatus(paymentUID);
     }
+
+
 }
