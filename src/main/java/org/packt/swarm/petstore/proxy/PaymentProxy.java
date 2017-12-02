@@ -2,6 +2,8 @@ package org.packt.swarm.petstore.proxy;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
+import org.packt.swarm.petstore.api.order.Order;
+import org.packt.swarm.petstore.api.payment.Payment;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -26,48 +28,25 @@ public class PaymentProxy {
         targetPath = "http://" + hostname + ":" + SWARM_PORT;
     }
 
-    public String makePayment(int orderId){
-        return new CreatePaymentCommand(orderId).execute();
+    public String createPayment(Payment payment){
+        return new CreatePaymentCommand(payment).execute();
     }
 
-    public String checkStatus(String paymentUID){
-        return new CheckStatusCommand(paymentUID).execute();
-    }
 
     private class CreatePaymentCommand extends HystrixCommand<String> {
 
-        private final int orderId;
+        private final Payment payment;
 
-        public CreatePaymentCommand(int orderId) {
+        public CreatePaymentCommand(Payment payment) {
             super(HystrixCommandGroupKey.Factory.asKey(SERVICE_NAME));
-            this.orderId = orderId;
+            this.payment = payment;
         }
 
         @Override
         protected String run() {
             Client client = ClientBuilder.newClient();
             WebTarget target = client.target(targetPath + "/payment");
-            target.queryParam("merchantId","1");
-            target.queryParam("description", "ORDER ID: "+orderId);
-            target.queryParam("amount", 10);
-            return target.request(MediaType.APPLICATION_JSON).post(Entity.entity("pies", MediaType.APPLICATION_JSON_TYPE), String.class);
-        }
-    }
-
-    private class CheckStatusCommand extends HystrixCommand<String> {
-
-        private final String paymentUID;
-
-        public CheckStatusCommand(String paymentUID) {
-            super(HystrixCommandGroupKey.Factory.asKey(SERVICE_NAME));
-            this.paymentUID = paymentUID;
-        }
-
-        @Override
-        protected String run() {
-            Client client = ClientBuilder.newClient();
-            WebTarget target = client.target(targetPath + "/payment/"+paymentUID+"/status");
-            return target.request(MediaType.APPLICATION_JSON).get(String.class);
+            return target.request(MediaType.APPLICATION_JSON).post(Entity.json(payment), String.class);
         }
     }
 

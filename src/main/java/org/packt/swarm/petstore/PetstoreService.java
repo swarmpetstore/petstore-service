@@ -1,6 +1,7 @@
 package org.packt.swarm.petstore;
 
-import org.packt.swarm.petstore.model.Cart;
+import org.packt.swarm.petstore.api.cart.Cart;
+import org.packt.swarm.petstore.api.payment.Payment;
 import org.packt.swarm.petstore.model.Item;
 import org.packt.swarm.petstore.model.Pet;
 import org.packt.swarm.petstore.model.Price;
@@ -47,7 +48,10 @@ public class PetstoreService {
     }
 
     public void pay(int customerId){
-        Cart cart = cartProxy.getCart(5);
+        Cart cart = cartProxy.getCart(customerId);
+
+
+
         String paymentUID =  paymentProxy.makePayment(3);
         paymentProxy.checkStatus(paymentUID);
     }

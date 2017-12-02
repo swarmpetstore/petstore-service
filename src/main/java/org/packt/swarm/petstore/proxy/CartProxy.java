@@ -1,6 +1,6 @@
 package org.packt.swarm.petstore.proxy;
 
-import org.packt.swarm.petstore.model.Cart;
+import org.packt.swarm.petstore.api.cart.Cart;
 
 import javax.enterprise.context.ApplicationScoped;
 
