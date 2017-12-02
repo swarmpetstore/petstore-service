@@ -1,5 +1,7 @@
 package org.packt.swarm.petstore.proxy;
 
+import org.packt.swarm.petstore.api.order.Order;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.client.Client;
@@ -7,7 +9,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
+import javax.ws.rs.core.Response;
 
 @ApplicationScoped
 public class OrderProxy {
@@ -24,15 +26,11 @@ public class OrderProxy {
         targetPath = "http://" + hostname + ":" + SWARM_PORT;
     }
 
-    public int createOrder(int customerId, List<Integer> itemIds, List<Integer> quantities){
+    public int createOrder(Order order){
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(targetPath+"/order");
 
-        target.queryParam("customerId", customerId);
-        target.queryParam("itemIds", itemIds);
-        target.queryParam("quantities", quantities);
-
-        target.request(MediaType.APPLICATION_JSON).post(Entity.entity("pies", MediaType.APPLICATION_JSON));
+        return target.request(MediaType.APPLICATION_JSON).post(Entity.json(order), Integer.class);
     }
 
 

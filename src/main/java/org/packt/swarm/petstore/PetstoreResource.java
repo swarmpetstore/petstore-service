@@ -29,8 +29,8 @@ public class PetstoreResource {
     @Path("pay")
     @Produces(MediaType.APPLICATION_JSON)
     public Response pay(@QueryParam("customerId") int customerId){
-        petstoreService.pay(customerId);
-        return Response.ok().build();
+        String paymentUUID = petstoreService.buy(customerId);
+        return Response.ok(paymentUUID).build();
     }
 
 

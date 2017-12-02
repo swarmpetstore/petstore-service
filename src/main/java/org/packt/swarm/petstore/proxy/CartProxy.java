@@ -9,8 +9,8 @@ public class CartProxy {
 
     public Cart getCart(int customerId){
         Cart cart = new Cart(5);
-        cart.getItems().put(1,2);
-        cart.getItems().put(4,1);
+        cart.getItems().add(new Cart.Item(3,5,5));
+        cart.getItems().add(new Cart.Item(4,1,10));
         return cart;
     }
 

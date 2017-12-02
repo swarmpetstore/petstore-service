@@ -1,6 +1,7 @@
 package org.packt.swarm.petstore;
 
 import org.packt.swarm.petstore.api.cart.Cart;
+import org.packt.swarm.petstore.api.order.Order;
 import org.packt.swarm.petstore.api.payment.Payment;
 import org.packt.swarm.petstore.model.Item;
 import org.packt.swarm.petstore.model.Pet;
@@ -13,6 +14,7 @@ import org.packt.swarm.petstore.proxy.PricingProxy;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,11 +53,28 @@ public class PetstoreService {
         return pets;
     }
 
-    public void pay(int customerId){
+    public String buy(int customerId){
         Cart cart = cartProxy.getCart(customerId);
-        
-        String paymentUID =  paymentProxy.makePayment(3);
-        paymentProxy.checkStatus(paymentUID);
+
+        Order order = createOrderFromCart(customerId, cart);
+        int orderId  = orderProxy.createOrder(order);
+
+        Payment payment = new Payment();
+        payment.setMerchantId(Constants.MERCHANT_ID);
+        payment.setDescription(String.format("ORDER_ID: %s", orderId));
+        payment.setAmount(order.getPrice());
+
+        return  paymentProxy.createPayment(payment);
+    }
+
+    private Order createOrderFromCart(int customerId, Cart cart){
+        Order order = new Order();
+        order.setCustomerId(customerId);
+        for(Cart.Item ci : cart.getItems()){
+            order.getItems().add(new Order.Item(ci.getItemId(),ci.getQuantity()));
+        }
+        order.setPrice(cart.calculatePrice());
+        return order;
     }
 
 
