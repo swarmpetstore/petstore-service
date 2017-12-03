@@ -1,5 +1,7 @@
 package org.packt.swarm.petstore.api.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class Order {
 
     private int customerId;
     private final List<Item> items = new ArrayList<>();
+    @JsonIgnore
     private double price;
 
     public Integer getId() {
