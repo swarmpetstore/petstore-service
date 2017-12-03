@@ -71,7 +71,7 @@ public class PetstoreService {
         Order order = new Order();
         order.setCustomerId(customerId);
         for(Cart.Item ci : cart.getItems()){
-            order.getItems().add(new Order.Item(ci.getItemId(),ci.getQuantity()));
+            order.getItems().add(new Order.Item(order, ci.getItemId(),ci.getQuantity()));
         }
         order.setPrice(cart.calculatePrice());
         return order;
