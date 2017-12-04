@@ -4,6 +4,7 @@ import org.packt.swarm.petstore.model.Pet;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -25,14 +26,12 @@ public class PetstoreResource {
     }
 
 
-    @GET
-    @Path("pay")
+    @POST
+    @Path("buy")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response pay(@QueryParam("customerId") int customerId){
+    public Response buy(@QueryParam("customerId") int customerId){
         String paymentUUID = petstoreService.buy(customerId);
         return Response.ok(paymentUUID).build();
     }
-
-
 
 }
