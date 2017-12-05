@@ -11,6 +11,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @ApplicationScoped
 public class PaymentProxy {
@@ -27,12 +28,12 @@ public class PaymentProxy {
         targetPath = "http://" + hostname + ":" + SWARM_PORT;
     }
 
-    public String createPayment(Payment payment){
+    public Response createPayment(Payment payment){
         return new CreatePaymentCommand(payment).execute();
     }
 
 
-    private class CreatePaymentCommand extends HystrixCommand<String> {
+    private class CreatePaymentCommand extends HystrixCommand<Response> {
 
         private final Payment payment;
 
@@ -42,10 +43,10 @@ public class PaymentProxy {
         }
 
         @Override
-        protected String run() {
+        protected Response run() {
             Client client = ClientBuilder.newClient();
             WebTarget target = client.target(targetPath + "/payment");
-            return target.request(MediaType.APPLICATION_JSON).post(Entity.json(payment), String.class);
+            return target.request(MediaType.APPLICATION_JSON).post(Entity.json(payment));
         }
     }
 

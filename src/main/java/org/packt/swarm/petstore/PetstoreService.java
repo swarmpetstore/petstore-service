@@ -64,7 +64,9 @@ public class PetstoreService {
         payment.setDescription(String.format("ORDER_ID: %s", orderId));
         payment.setAmount(order.getPrice());
 
-        return  paymentProxy.createPayment(payment);
+        Response response =  paymentProxy.createPayment(payment);
+
+        return (String) response.readEntity(String.class);
     }
 
     private Order createOrderFromCart(int customerId, Cart cart){
