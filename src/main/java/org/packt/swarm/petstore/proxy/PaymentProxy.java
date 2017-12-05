@@ -2,7 +2,6 @@ package org.packt.swarm.petstore.proxy;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
-import org.packt.swarm.petstore.api.order.Order;
 import org.packt.swarm.petstore.api.payment.Payment;
 
 import javax.annotation.PostConstruct;
