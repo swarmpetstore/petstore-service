@@ -42,8 +42,7 @@ public class PaymentProxy {
         public CreatePaymentCommand(Payment payment) {
             super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey(SERVICE_NAME))
                                   .andCommandPropertiesDefaults(HystrixCommandProperties.Setter()
-                                          .withExecutionTimeoutInMilliseconds(10000))
-                    .andThreadPoolPropertiesDefaults(HystrixThreadPoolProperties.Setter().withCoreSize(3)));
+                                          .withExecutionTimeoutInMilliseconds(100)));
             this.payment = payment;
         }
 
