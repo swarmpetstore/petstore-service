@@ -2,6 +2,7 @@ package org.packt.swarm.petstore.proxy;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandProperties;
 import org.packt.swarm.petstore.api.payment.Payment;
 
 import javax.annotation.PostConstruct;
@@ -38,7 +39,8 @@ public class PaymentProxy {
         private final Payment payment;
 
         public CreatePaymentCommand(Payment payment) {
-            super(HystrixCommandGroupKey.Factory.asKey(SERVICE_NAME));
+            super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey(SERVICE_NAME))
+                                  .andCommandPropertiesDefaults(HystrixCommandProperties.Setter().withExecutionTimeoutInMilliseconds(500)));
             this.payment = payment;
         }
 
