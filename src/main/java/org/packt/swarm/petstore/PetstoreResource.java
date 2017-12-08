@@ -30,8 +30,12 @@ public class PetstoreResource {
     @Path("buy")
     @Produces(MediaType.APPLICATION_JSON)
     public Response buy(@QueryParam("customerId") int customerId){
-        String paymentUUID = petstoreService.buy(customerId);
-        return Response.ok(paymentUUID).build();
+        try {
+            String paymentUUID = petstoreService.buy(customerId);
+            return Response.ok(paymentUUID).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }
     }
 
 }
