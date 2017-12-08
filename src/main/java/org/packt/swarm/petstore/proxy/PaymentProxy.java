@@ -55,7 +55,7 @@ public class PaymentProxy {
 
         @Override
         protected Response getFallback() {
-            throw new RuntimeException("Payment service unreachable");
+            return Response.status(Response.Status.REQUEST_TIMEOUT).build();
         }
     }
 
