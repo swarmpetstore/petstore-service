@@ -52,6 +52,11 @@ public class PaymentProxy {
             WebTarget target = client.target(targetPath + "/payment");
             return target.request(MediaType.APPLICATION_JSON).post(Entity.json(payment));
         }
+
+        @Override
+        protected Response getFallback() {
+            throw new RuntimeException("Payment service unreachable");
+        }
     }
 
 }
