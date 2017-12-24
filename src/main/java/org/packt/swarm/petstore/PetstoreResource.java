@@ -34,7 +34,7 @@ public class PetstoreResource {
             String paymentUUID = petstoreService.buy(customerId);
             return Response.ok(paymentUUID).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
     }
 

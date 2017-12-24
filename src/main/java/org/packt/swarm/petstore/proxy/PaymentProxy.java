@@ -55,7 +55,7 @@ public class PaymentProxy {
 
         @Override
         protected Response getFallback() {
-            return Response.status(Response.Status.REQUEST_TIMEOUT).build();
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
         }
     }
 

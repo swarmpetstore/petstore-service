@@ -66,7 +66,7 @@ public class PetstoreService {
 
         Response response =  paymentProxy.createPayment(payment);
 
-        if(response.getStatus() != Response.Status.OK.getStatusCode()){
+        if(response.getStatus() == Response.Status.SERVICE_UNAVAILABLE.getStatusCode()){
             throw new RuntimeException("Payment service unreachable");
         }
 
