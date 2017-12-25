@@ -11,10 +11,9 @@ public class Main {
 
 
         Swarm swarm = new Swarm();
+        swarm.start();
 
         Archive<?> deployment = swarm.createDefaultDeployment();
-
-        swarm.start();
 
         deployment.as(Secured.class)
                 .protect( "/pet" )
