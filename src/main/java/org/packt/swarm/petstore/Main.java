@@ -18,7 +18,7 @@ public class Main {
         deployment.as(Secured.class)
                 .protect( "/pet" )
                 .withMethod( "GET" )
-                .withRole( "admin" );
+                .withRole( "client" );
 
         swarm.deploy(deployment);
     }
