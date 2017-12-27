@@ -1,5 +1,7 @@
 package org.packt.swarm.petstore;
 
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.KeycloakSecurityContext;
 import org.packt.swarm.petstore.model.Pet;
 
 import javax.inject.Inject;
@@ -23,19 +25,20 @@ public class PetstoreResource {
     @GET
     @Path("pet")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Pet> getAvailablePets(@Context  SecurityContext securityContext) {
-        System.out.println("PRINCIPAL TO "+securityContext.getUserPrincipal().getName());
-        if(securityContext.isUserInRole("client")){
-            System.out.println("PRINCIPAL JEST KLIENTEM");
-        } else {
-            System.out.println("KLIENTEM KWA TO NIE JEST");
-        }
-        if(securityContext.isUserInRole("admin")){
-            System.out.println("PRINCIPAL JEST ADMINEM");
-        } else {
-            System.out.println("ADMINEM KWA TO NIE JEST");
-        }
-        return petstoreService.getAvailablePets();
+    public List<Pet> getAvailablePets(@Context SecurityContext securityContext) {
+//        System.out.println("PRINCIPAL TO "+securityContext.getUserPrincipal().getName());
+//        if(securityContext.isUserInRole("client")){
+//            System.out.println("PRINCIPAL JEST KLIENTEM");
+//        } else {
+//            System.out.println("KLIENTEM KWA TO NIE JEST");
+//        }
+//        if(securityContext.isUserInRole("admin")){
+//            System.out.println("PRINCIPAL JEST ADMINEM");
+//        } else {
+//            System.out.println("ADMINEM KWA TO NIE JEST");
+//        }
+        KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) securityContext.getUserPrincipal();
+        return petstoreService.getAvailablePets("ala123");
     }
 
 

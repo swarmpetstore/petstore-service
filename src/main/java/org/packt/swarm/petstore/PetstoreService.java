@@ -38,10 +38,10 @@ public class PetstoreService {
 
 
 
-    public List<Pet> getAvailablePets() {
+    public List<Pet> getAvailablePets(String token) {
         List<Pet> pets = new ArrayList<>();
         for(Item item: catalogProxy.getAllItems()) {
-            Price price = pricingProxy.getPrice(item.getName());
+            Price price = pricingProxy.getPrice(item.getName(), token);
 
             Pet pet = new Pet();
             pet.setName(item.getName());

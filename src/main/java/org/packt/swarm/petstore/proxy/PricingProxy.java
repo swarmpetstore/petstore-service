@@ -7,6 +7,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 @ApplicationScoped
@@ -24,9 +25,9 @@ public class PricingProxy {
         targetPath = "http://" + hostname + ":" + SWARM_PORT;
     }
 
-    public Price getPrice(String name){
+    public Price getPrice(String name, String token){
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(targetPath + "/price/" + name);
-        return target.request(MediaType.APPLICATION_JSON).get(Price.class);
+        return target.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION,"Bearer "+token).get(Price.class);
     }
 }
