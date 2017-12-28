@@ -28,6 +28,8 @@ public class PricingProxy {
     public Price getPrice(String name, String token){
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(targetPath + "/price/" + name);
-        return target.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION,"Bearer "+token).get(Price.class);
+        return target.request(MediaType.APPLICATION_JSON)
+                //.header(HttpHeaders.AUTHORIZATION,"Bearer "+token)
+                .get(Price.class);
     }
 }
