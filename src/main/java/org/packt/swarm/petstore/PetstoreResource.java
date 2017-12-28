@@ -38,7 +38,7 @@ public class PetstoreResource {
 //            System.out.println("ADMINEM KWA TO NIE JEST");
 //        }
         KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) securityContext.getUserPrincipal();
-        String token = keycloakPrincipal.getKeycloakSecurityContext().getIdTokenString();
+        String token = keycloakPrincipal.getKeycloakSecurityContext().getToken().toString();
         return petstoreService.getAvailablePets(token);
     }
 
