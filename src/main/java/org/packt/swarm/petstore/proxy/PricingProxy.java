@@ -32,7 +32,7 @@ public class PricingProxy {
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(targetPath + "/price/" + name);
         Response response  = target.request(MediaType.APPLICATION_JSON)
-            //.header(HttpHeaders.AUTHORIZATION,"Bearer "+token)
+            .header(HttpHeaders.AUTHORIZATION,"Bearer "+token)
         .get();
         System.out.println("STATUS RESPONSA TO "+response.getStatus());
         return (Price) response.getEntity();
