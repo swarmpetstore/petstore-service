@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.util.LinkedList;
 import java.util.List;
 
 @Path("/")
@@ -26,6 +27,7 @@ public class PetstoreResource {
     @Path("pet")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Pet> getAvailablePets(@Context SecurityContext securityContext) {
+        try {
 //        System.out.println("PRINCIPAL TO "+securityContext.getUserPrincipal().getName());
 //        if(securityContext.isUserInRole("client")){
 //            System.out.println("PRINCIPAL JEST KLIENTEM");
@@ -40,6 +42,11 @@ public class PetstoreResource {
         KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) securityContext.getUserPrincipal();
         String token = keycloakPrincipal.getKeycloakSecurityContext().getToken().toString();
         return petstoreService.getAvailablePets(token);
+        } catch (Exception e) {
+            System.out.println("WYCHRZANILO SIE");
+            e.printStackTrace();
+            return new LinkedList<>();
+        }
     }
 
 
