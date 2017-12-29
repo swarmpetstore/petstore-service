@@ -43,7 +43,7 @@ public class PetstoreService {
         List<Pet> pets = new ArrayList<>();
         for(Item item: catalogProxy.getAllItems()) {
             System.out.println("ZARAZ POJDZIE CALL DO PROXY");
-//            Price price = pricingProxy.getPrice(item.getName(), token);
+            Price price = pricingProxy.getPrice(item.getName(), token);
 //
 //            Pet pet = new Pet();
 //            pet.setName(item.getName());
