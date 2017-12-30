@@ -28,15 +28,11 @@ public class PricingProxy {
     }
 
     public Price getPrice(String name, String token){
-        System.out.println("UWAGA IDZIE GET PRICE");
         String auth = "bearer "+token;
-        System.out.println("POJDZIE TAKI TOKEN "+auth);
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(targetPath + "/price/" + name);
-        Response response  = target.request(MediaType.APPLICATION_JSON)
+        return target.request(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION,auth)
-        .get();
-        System.out.println("STATUS RESPONSA TO "+response.getStatus());
-        return (Price) response.getEntity();
+            .get(Price.class);
     }
 }
