@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -26,7 +27,7 @@ public class PetstoreResource {
     @GET
     @Path("/pet")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Pet> getAvailablePets(@Context SecurityContext securityContext) {
+    public Response getAvailablePets(@Context SecurityContext securityContext) {
         try {
 
             KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) securityContext.getUserPrincipal();
@@ -35,11 +36,12 @@ public class PetstoreResource {
         if(keycloakPrincipal != null && keycloakPrincipal.getKeycloakSecurityContext()!=null) {
             token = keycloakPrincipal.getKeycloakSecurityContext().getTokenString();
         }
-        return petstoreService.getAvailablePets(token);
+        List<Pet> result = petstoreService.getAvailablePets(token);
+        return Response.ok(result).header("Access-Control-Allow-Origin", "*").build();
         } catch (Exception e) {
             System.out.println("WYCHRZANILO SIE");
             e.printStackTrace();
-            return new LinkedList<>();
+            return Response.serverError().build();
         }
     }
 
