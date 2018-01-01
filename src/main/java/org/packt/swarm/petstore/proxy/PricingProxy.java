@@ -31,8 +31,13 @@ public class PricingProxy {
         String auth = "bearer "+token;
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(targetPath + "/price/" + name);
-        return target.request(MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.AUTHORIZATION,auth)
-            .get(Price.class);
+        if(token != null) {
+            return target.request(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, auth)
+                    .get(Price.class);
+        } else {
+            return target.request(MediaType.APPLICATION_JSON)
+                    .get(Price.class);
+        }
     }
 }

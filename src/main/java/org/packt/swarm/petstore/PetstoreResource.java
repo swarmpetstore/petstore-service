@@ -28,19 +28,13 @@ public class PetstoreResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Pet> getAvailablePets(@Context SecurityContext securityContext) {
         try {
-//        System.out.println("PRINCIPAL TO "+securityContext.getUserPrincipal().getName());
-//        if(securityContext.isUserInRole("client")){
-//            System.out.println("PRINCIPAL JEST KLIENTEM");
-//        } else {
-//            System.out.println("KLIENTEM KWA TO NIE JEST");
-//        }
-//        if(securityContext.isUserInRole("admin")){
-//            System.out.println("PRINCIPAL JEST ADMINEM");
-//        } else {
-//            System.out.println("ADMINEM KWA TO NIE JEST");
-//        }
-        KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) securityContext.getUserPrincipal();
-        String token = keycloakPrincipal.getKeycloakSecurityContext().getTokenString();
+
+            KeycloakPrincipal keycloakPrincipal = (KeycloakPrincipal) securityContext.getUserPrincipal();
+
+        String token = null;
+        if(keycloakPrincipal != null && keycloakPrincipal.getKeycloakSecurityContext()!=null) {
+            token = keycloakPrincipal.getKeycloakSecurityContext().getTokenString();
+        }
         return petstoreService.getAvailablePets(token);
         } catch (Exception e) {
             System.out.println("WYCHRZANILO SIE");
