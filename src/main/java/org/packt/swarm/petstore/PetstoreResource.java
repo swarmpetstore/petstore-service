@@ -24,7 +24,7 @@ public class PetstoreResource {
     private PetstoreService petstoreService;
 
     @GET
-    @Path("pet")
+    @Path("/pet")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Pet> getAvailablePets(@Context SecurityContext securityContext) {
         try {
