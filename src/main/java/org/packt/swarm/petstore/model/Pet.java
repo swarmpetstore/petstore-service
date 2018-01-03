@@ -6,6 +6,7 @@ public class Pet {
     private String name;
     private int quantity;
     private int price;
+    private String description;
 
     public String getName() {
         return name;
@@ -29,5 +30,13 @@ public class Pet {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

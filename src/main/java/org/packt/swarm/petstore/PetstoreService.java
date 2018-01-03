@@ -49,6 +49,7 @@ public class PetstoreService {
             pet.setName(item.getName());
             pet.setPrice(price.getPrice());
             pet.setQuantity(item.getQuantity());
+            pet.setDescription(item.getDescription());
 
             pets.add(pet);
         }
