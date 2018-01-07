@@ -28,7 +28,7 @@ public class CartProxy {
 
     public void addToCart(String customerId, CartItem item){
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(targetPath+"/item/"+customerId);
+        WebTarget target = client.target(targetPath+"/cart/"+customerId);
         Arrays.asList(target.request(MediaType.APPLICATION_JSON).post(Entity.json(item), Void.class));
     }
 
