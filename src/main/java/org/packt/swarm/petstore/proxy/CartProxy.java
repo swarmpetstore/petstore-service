@@ -1,6 +1,6 @@
 package org.packt.swarm.petstore.proxy;
 
-import org.packt.swarm.petstore.model.CartItem;
+import org.packt.swarm.petstore.cart.api.CartItem;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -27,10 +27,10 @@ public class CartProxy {
         targetPath = "http://" + hostname + ":" + SWARM_PORT;
     }
 
-    public List<CartItem> getCart(String customerId){
+    public List<org.packt.swarm.petstore.cart.api.CartItem> getCart(String customerId){
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(targetPath+"/cart/"+customerId);
-        return Arrays.asList(target.request(MediaType.APPLICATION_JSON).get(CartItem[].class));
+        return Arrays.asList(target.request(MediaType.APPLICATION_JSON).get(org.packt.swarm.petstore.cart.api.CartItem[].class));
     }
 
     public void addToCart(String customerId, CartItem item){

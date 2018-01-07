@@ -1,16 +1,14 @@
 package org.packt.swarm.petstore.proxy;
 
-import org.packt.swarm.petstore.model.Price;
+import org.packt.swarm.petstore.api.Price;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 @ApplicationScoped
 public class PricingProxy {

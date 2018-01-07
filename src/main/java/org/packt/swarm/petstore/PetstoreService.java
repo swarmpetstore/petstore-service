@@ -1,12 +1,10 @@
 package org.packt.swarm.petstore;
 
-import org.packt.swarm.petstore.api.cart.Cart;
-import org.packt.swarm.petstore.api.order.Order;
-import org.packt.swarm.petstore.api.payment.Payment;
-import org.packt.swarm.petstore.model.CartItem;
-import org.packt.swarm.petstore.model.Item;
-import org.packt.swarm.petstore.model.Pet;
-import org.packt.swarm.petstore.model.Price;
+import org.packt.swarm.petstore.api.CartItemView;
+import org.packt.swarm.petstore.api.CatalogItemView;
+import org.packt.swarm.petstore.api.Price;
+import org.packt.swarm.petstore.cart.api.CartItem;
+import org.packt.swarm.petstore.catalog.api.CatalogItem;
 import org.packt.swarm.petstore.proxy.CartProxy;
 import org.packt.swarm.petstore.proxy.CatalogProxy;
 import org.packt.swarm.petstore.proxy.OrderProxy;
@@ -15,7 +13,6 @@ import org.packt.swarm.petstore.proxy.PricingProxy;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,14 +36,14 @@ public class PetstoreService {
 
 
 
-    public List<Pet> getAvailablePets(String token) {
+    public List<CatalogItemView> getAvailablePets(String token) {
         System.out.println("IDZIE GET AVAILABLE PETS");
-        List<Pet> pets = new ArrayList<>();
-        for(Item item: catalogProxy.getAllItems()) {
+        List<CatalogItemView> pets = new ArrayList<>();
+        for(CatalogItem item: catalogProxy.getAllItems()) {
             System.out.println("ZARAZ POJDZIE CALL DO PROXY");
             Price price = pricingProxy.getPrice(item.getName(), token);
 
-            Pet pet = new Pet();
+            CatalogItemView pet = new CatalogItemView();
             pet.setItemId(item.getItemId());
             pet.setName(item.getName());
             pet.setPrice(price.getPrice());
@@ -62,8 +59,25 @@ public class PetstoreService {
         cartProxy.addToCart(customerId, item);
     }
 
-    public List<CartItem> getCart(String customerId){
-        return cartProxy.getCart(customerId);
+    public List<CartItemView> getCart(String customerId){
+        List<CartItemView> results = new ArrayList<>();
+        for(CartItem cartItem: cartProxy.getCart(customerId)){
+            CartItemView result = new CartItemView();
+
+            result.setItemId(cartItem.getItemId());
+            result.setQuantity(cartItem.getQuantity());
+
+            CatalogItem catalogItem = catalogProxy.getItem(cartItem.getItemId());
+            result.setName(catalogItem.getName());
+
+            Price price = pricingProxy.getPrice(catalogItem.getName(), null);
+            result.setPrice(price.getPrice());
+
+            results.add(result);
+        }
+
+        return results;
+
     }
 
     public String buy(int customerId){
@@ -87,15 +101,15 @@ public class PetstoreService {
         return "pies";
     }
 
-    private Order createOrderFromCart(int customerId, Cart cart){
+    /*private Order createOrderFromCart(int customerId, Cart cart){
         Order order = new Order();
         order.setCustomerId(customerId);
-        for(Cart.Item ci : cart.getItems()){
-            order.getItems().add(new Order.Item(order, ci.getItemId(),ci.getQuantity()));
+        for(Cart.CartItemView ci : cart.getItems()){
+            order.getItems().add(new Order.CartItemView(order, ci.getItemId(),ci.getQuantity()));
         }
         order.setPrice(cart.calculatePrice());
         return order;
-    }
+    }*/
 
 
 }

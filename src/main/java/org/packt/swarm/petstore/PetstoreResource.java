@@ -1,9 +1,8 @@
 package org.packt.swarm.petstore;
 
 import org.keycloak.KeycloakPrincipal;
-import org.keycloak.KeycloakSecurityContext;
-import org.packt.swarm.petstore.model.CartItem;
-import org.packt.swarm.petstore.model.Pet;
+import org.packt.swarm.petstore.api.CartItemView;
+import org.packt.swarm.petstore.api.CatalogItemView;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -13,11 +12,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.util.LinkedList;
 import java.util.List;
 
 @Path("/")
@@ -38,7 +35,7 @@ public class PetstoreResource {
         if(keycloakPrincipal != null && keycloakPrincipal.getKeycloakSecurityContext()!=null) {
             token = keycloakPrincipal.getKeycloakSecurityContext().getTokenString();
         }
-        List<Pet> result = petstoreService.getAvailablePets(token);
+        List<CatalogItemView> result = petstoreService.getAvailablePets(token);
         return Response.ok(result).build();
         } catch (Exception e) {
             System.out.println("WYCHRZANILO SIE");
@@ -50,7 +47,7 @@ public class PetstoreResource {
     @POST
     @Path("/cart/{customerId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addToCart(@PathParam("customerId") String customerId, CartItem item) {
+    public Response addToCart(@PathParam("customerId") String customerId, org.packt.swarm.petstore.cart.api.CartItem item) {
         try {
             petstoreService.addToCart(customerId, item);
             return Response.ok().build();
@@ -64,13 +61,11 @@ public class PetstoreResource {
     @GET
     @Path("/cart/{customerId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addToCart(@PathParam("customerId") String customerId) {
+    public Response getCart(@PathParam("customerId") String customerId) {
         try {
-            List<CartItem> cart = petstoreService.getCart(customerId);
+            List<CartItemView> cart = petstoreService.getCart(customerId);
             return Response.ok(cart).build();
         } catch (Exception e) {
-            System.out.println("WYCHRZANILO SIE");
-            e.printStackTrace();
             return Response.serverError().build();
         }
     }

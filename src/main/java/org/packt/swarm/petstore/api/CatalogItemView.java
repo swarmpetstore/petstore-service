@@ -1,6 +1,6 @@
-package org.packt.swarm.petstore.model;
+package org.packt.swarm.petstore.api;
 
-public class Pet {
+public class CatalogItemView {
 
     private String itemId;
     private String name;

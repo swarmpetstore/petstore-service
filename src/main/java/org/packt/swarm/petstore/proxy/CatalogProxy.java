@@ -1,6 +1,6 @@
 package org.packt.swarm.petstore.proxy;
 
-import org.packt.swarm.petstore.model.Item;
+import org.packt.swarm.petstore.catalog.api.CatalogItem;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -26,16 +26,16 @@ public class CatalogProxy {
         targetPath = "http://" + hostname + ":" + SWARM_PORT;
     }
 
-    public List<Item> getAllItems(){
+    public List<CatalogItem> getAllItems(){
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(targetPath+"/item");
-        return Arrays.asList(target.request(MediaType.APPLICATION_JSON).get(Item[].class));
+        return Arrays.asList(target.request(MediaType.APPLICATION_JSON).get(CatalogItem[].class));
     }
 
-    public List<Item> getItem(String name){
+    public CatalogItem getItem(String itemId){
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(targetPath+"/item/"+name);
-        return Arrays.asList(target.request(MediaType.APPLICATION_JSON).get(Item.class));
+        WebTarget target = client.target(targetPath+"/item/"+itemId);
+        return target.request(MediaType.APPLICATION_JSON).get(CatalogItem.class);
     }
 
 }

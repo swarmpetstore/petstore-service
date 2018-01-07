@@ -1,7 +1,7 @@
-package org.packt.swarm.petstore.model;
+package org.packt.swarm.petstore.cart.api;
 
 public class CartItem {
-    private String  itemId;
+    private String itemId;
     private int quantity;
 
     public String getItemId() {
