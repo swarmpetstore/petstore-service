@@ -2,9 +2,18 @@ package org.packt.swarm.petstore.model;
 
 public class Item {
 
+    private String itemId;
     private String name;
     private int quantity;
     private String description;
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
 
     public String getName() {
         return name;

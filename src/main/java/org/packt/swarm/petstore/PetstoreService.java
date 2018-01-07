@@ -47,6 +47,7 @@ public class PetstoreService {
             Price price = pricingProxy.getPrice(item.getName(), token);
 
             Pet pet = new Pet();
+            pet.setItemId(item.getItemId());
             pet.setName(item.getName());
             pet.setPrice(price.getPrice());
             pet.setQuantity(item.getQuantity());
