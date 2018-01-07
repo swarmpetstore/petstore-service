@@ -3,6 +3,7 @@ package org.packt.swarm.petstore;
 import org.packt.swarm.petstore.api.cart.Cart;
 import org.packt.swarm.petstore.api.order.Order;
 import org.packt.swarm.petstore.api.payment.Payment;
+import org.packt.swarm.petstore.model.CartItem;
 import org.packt.swarm.petstore.model.Item;
 import org.packt.swarm.petstore.model.Pet;
 import org.packt.swarm.petstore.model.Price;
@@ -56,24 +57,32 @@ public class PetstoreService {
         return pets;
     }
 
+    public void addToCart(String customerId, int itemId, int quantity){
+        CartItem cartItem = new CartItem();
+        cartItem.setItemId(itemId);
+        cartItem.setQuantity(quantity);
+        cartProxy.addToCart(customerId, cartItem);
+    }
+
     public String buy(int customerId){
-        Cart cart = cartProxy.getCart(customerId);
-
-        Order order = createOrderFromCart(customerId, cart);
-        int orderId  = orderProxy.createOrder(order);
-
-        Payment payment = new Payment();
-        payment.setMerchantId(Constants.MERCHANT_ID);
-        payment.setDescription(String.format("ORDER_ID: %s", orderId));
-        payment.setAmount(order.getPrice());
-
-        Response response =  paymentProxy.createPayment(payment);
-
-        if(response.getStatus() == Response.Status.SERVICE_UNAVAILABLE.getStatusCode()){
-            throw new RuntimeException("Payment service unreachable");
-        }
-
-        return (String) response.readEntity(String.class);
+//        Cart cart = cartProxy.getCart(customerId);
+//
+//        Order order = createOrderFromCart(customerId, cart);
+//        int orderId  = orderProxy.createOrder(order);
+//
+//        Payment payment = new Payment();
+//        payment.setMerchantId(Constants.MERCHANT_ID);
+//        payment.setDescription(String.format("ORDER_ID: %s", orderId));
+//        payment.setAmount(order.getPrice());
+//
+//        Response response =  paymentProxy.createPayment(payment);
+//
+//        if(response.getStatus() == Response.Status.SERVICE_UNAVAILABLE.getStatusCode()){
+//            throw new RuntimeException("Payment service unreachable");
+//        }
+//
+//        return (String) response.readEntity(String.class);
+        return "pies";
     }
 
     private Order createOrderFromCart(int customerId, Cart cart){

@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -37,7 +38,21 @@ public class PetstoreResource {
             token = keycloakPrincipal.getKeycloakSecurityContext().getTokenString();
         }
         List<Pet> result = petstoreService.getAvailablePets(token);
-        return Response.ok(result).header("Access-Control-Allow-Origin", "*").build();
+        return Response.ok(result).build();
+        } catch (Exception e) {
+            System.out.println("WYCHRZANILO SIE");
+            e.printStackTrace();
+            return Response.serverError().build();
+        }
+    }
+
+    @POST
+    @Path("/cart/{customerId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addToCart(@PathParam("customerId") String customerId, @QueryParam("itemId") int itemId, @QueryParam("quantity") int quantity) {
+        try {
+            petstoreService.addToCart(customerId, itemId, quantity);
+            return Response.ok().build();
         } catch (Exception e) {
             System.out.println("WYCHRZANILO SIE");
             e.printStackTrace();
