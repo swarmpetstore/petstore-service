@@ -58,11 +58,8 @@ public class PetstoreService {
         return pets;
     }
 
-    public void addToCart(String customerId, int itemId, int quantity){
-        CartItem cartItem = new CartItem();
-        cartItem.setItemId(itemId);
-        cartItem.setQuantity(quantity);
-        cartProxy.addToCart(customerId, cartItem);
+    public void addToCart(String customerId, CartItem item){
+        cartProxy.addToCart(customerId, item);
     }
 
     public List<CartItem> getCart(String customerId){

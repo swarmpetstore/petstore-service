@@ -50,9 +50,9 @@ public class PetstoreResource {
     @POST
     @Path("/cart/{customerId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addToCart(@PathParam("customerId") String customerId, @QueryParam("itemId") int itemId, @QueryParam("quantity") int quantity) {
+    public Response addToCart(@PathParam("customerId") String customerId, CartItem item) {
         try {
-            petstoreService.addToCart(customerId, itemId, quantity);
+            petstoreService.addToCart(customerId, item);
             return Response.ok().build();
         } catch (Exception e) {
             System.out.println("WYCHRZANILO SIE");
