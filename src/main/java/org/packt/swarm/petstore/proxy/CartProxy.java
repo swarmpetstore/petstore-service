@@ -10,6 +10,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import java.util.Arrays;
+import java.util.List;
 
 @ApplicationScoped
 public class CartProxy {
@@ -26,11 +27,16 @@ public class CartProxy {
         targetPath = "http://" + hostname + ":" + SWARM_PORT;
     }
 
+    public List<CartItem> getCart(String customerId){
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target(targetPath+"/cart/"+customerId);
+        return Arrays.asList(target.request(MediaType.APPLICATION_JSON).get(CartItem[].class));
+    }
+
     public void addToCart(String customerId, CartItem item){
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(targetPath+"/cart/"+customerId);
         Arrays.asList(target.request(MediaType.APPLICATION_JSON).post(Entity.json(item), Void.class));
     }
-
 
 }

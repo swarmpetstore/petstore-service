@@ -2,6 +2,7 @@ package org.packt.swarm.petstore;
 
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
+import org.packt.swarm.petstore.model.CartItem;
 import org.packt.swarm.petstore.model.Pet;
 
 import javax.inject.Inject;
@@ -53,6 +54,20 @@ public class PetstoreResource {
         try {
             petstoreService.addToCart(customerId, itemId, quantity);
             return Response.ok().build();
+        } catch (Exception e) {
+            System.out.println("WYCHRZANILO SIE");
+            e.printStackTrace();
+            return Response.serverError().build();
+        }
+    }
+
+    @GET
+    @Path("/cart/{customerId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addToCart(@PathParam("customerId") String customerId) {
+        try {
+            List<CartItem> cart = petstoreService.getCart(customerId);
+            return Response.ok(cart).build();
         } catch (Exception e) {
             System.out.println("WYCHRZANILO SIE");
             e.printStackTrace();

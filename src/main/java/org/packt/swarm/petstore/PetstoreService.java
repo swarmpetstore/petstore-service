@@ -65,6 +65,10 @@ public class PetstoreService {
         cartProxy.addToCart(customerId, cartItem);
     }
 
+    public List<CartItem> getCart(String customerId){
+        return cartProxy.getCart(customerId);
+    }
+
     public String buy(int customerId){
 //        Cart cart = cartProxy.getCart(customerId);
 //
