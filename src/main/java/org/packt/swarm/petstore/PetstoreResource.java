@@ -6,6 +6,7 @@ import org.packt.swarm.petstore.api.CatalogItemView;
 import org.packt.swarm.petstore.cart.api.CartItem;
 
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -66,6 +67,18 @@ public class PetstoreResource {
         try {
             List<CartItemView> cart = petstoreService.getCart(customerId);
             return Response.ok(cart).build();
+        } catch (Exception e) {
+            return Response.serverError().build();
+        }
+    }
+
+    @DELETE
+    @Path("/cart/{customerId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteFromCart(@PathParam("customerId") String customerId) {
+        try {
+            petstoreService.deleteFromCart(customerId);
+            return Response.ok().build();
         } catch (Exception e) {
             return Response.serverError().build();
         }
