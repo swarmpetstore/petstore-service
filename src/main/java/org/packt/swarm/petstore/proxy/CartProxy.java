@@ -33,9 +33,9 @@ public class CartProxy {
         return Arrays.asList(target.request(MediaType.APPLICATION_JSON).get(org.packt.swarm.petstore.cart.api.CartItem[].class));
     }
 
-    public void addToCart(String customerId, CartItem item){
+    public void addToCart(String customerId, CartItem item, boolean additive){
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(targetPath+"/cart/"+customerId);
+        WebTarget target = client.target(targetPath+"/cart/"+customerId+"?additive="+additive);
         Arrays.asList(target.request(MediaType.APPLICATION_JSON).post(Entity.json(item), Void.class));
     }
 

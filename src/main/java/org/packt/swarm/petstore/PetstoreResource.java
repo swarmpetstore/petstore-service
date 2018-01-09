@@ -3,6 +3,7 @@ package org.packt.swarm.petstore;
 import org.keycloak.KeycloakPrincipal;
 import org.packt.swarm.petstore.api.CartItemView;
 import org.packt.swarm.petstore.api.CatalogItemView;
+import org.packt.swarm.petstore.cart.api.CartItem;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -47,9 +48,9 @@ public class PetstoreResource {
     @POST
     @Path("/cart/{customerId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addToCart(@PathParam("customerId") String customerId, org.packt.swarm.petstore.cart.api.CartItem item) {
+    public Response addToCart(@PathParam("customerId") String customerId, CartItem item, @QueryParam("additive") boolean additive) {
         try {
-            petstoreService.addToCart(customerId, item);
+            petstoreService.addToCart(customerId, item, additive);
             return Response.ok().build();
         } catch (Exception e) {
             System.out.println("WYCHRZANILO SIE");

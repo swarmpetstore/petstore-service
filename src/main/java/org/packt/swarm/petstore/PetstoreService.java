@@ -55,8 +55,8 @@ public class PetstoreService {
         return pets;
     }
 
-    public void addToCart(String customerId, CartItem item){
-        cartProxy.addToCart(customerId, item);
+    public void addToCart(String customerId, CartItem item, boolean additive){
+        cartProxy.addToCart(customerId, item, additive);
     }
 
     public List<CartItemView> getCart(String customerId){
