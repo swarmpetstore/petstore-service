@@ -39,10 +39,10 @@ public class CartProxy {
         Arrays.asList(target.request(MediaType.APPLICATION_JSON).post(Entity.json(item), Void.class));
     }
 
-    public void removeFromCart(String customerId){
+    public void deleteFromCart(String customerId, String itemId){
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(targetPath+"/cart/"+customerId);
-        Arrays.asList(target.request(MediaType.APPLICATION_JSON).delete());
+        WebTarget target = client.target(targetPath+"/cart/"+customerId+"/"+itemId);
+        target.request(MediaType.APPLICATION_JSON).delete();
     }
 
 }

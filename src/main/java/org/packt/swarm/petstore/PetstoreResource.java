@@ -73,11 +73,11 @@ public class PetstoreResource {
     }
 
     @DELETE
-    @Path("/cart/{customerId}")
+    @Path("/cart/{customerId}/{itemId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteFromCart(@PathParam("customerId") String customerId) {
+    public Response deleteFromCart(@PathParam("customerId") String customerId, @PathParam("itemId") String itemId) {
         try {
-            petstoreService.deleteFromCart(customerId);
+            petstoreService.deleteFromCart(customerId, itemId);
             return Response.ok().build();
         } catch (Exception e) {
             return Response.serverError().build();

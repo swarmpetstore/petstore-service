@@ -59,8 +59,8 @@ public class PetstoreService {
         cartProxy.addToCart(customerId, item, additive);
     }
 
-    public void deleteFromCart(String customerId){
-        cartProxy.removeFromCart(customerId);
+    public void deleteFromCart(String customerId, String itemId){
+        cartProxy.deleteFromCart(customerId, itemId);
     }
 
     public List<CartItemView> getCart(String customerId){
