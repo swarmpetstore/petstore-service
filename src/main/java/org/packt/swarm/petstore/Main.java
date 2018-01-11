@@ -15,10 +15,10 @@ public class Main {
 
         Archive<?> deployment = swarm.createDefaultDeployment();
 
-        deployment.as(Secured.class);
-//                .protect( "/pet" )
-//                .withMethod( "GET" )
-//                .withRole( "client" );
+        deployment.as(Secured.class)
+                .protect( "/pet" )
+                .withMethod( "GET" )
+                .withRole( "customer" );
 
         swarm.deploy(deployment);
     }
