@@ -12,6 +12,6 @@ public class CorsFilter implements ContainerResponseFilter {
             throws IOException {
         res.getHeaders().add("Access-Control-Allow-Origin", "https://192.168.1.29:8080");
         res.getHeaders().add("Access-Control-Allow-Methods", "GET,POST,DELETE");
-        res.getHeaders().add("Access-Control-Allow-Headers","Content-Type");
+        res.getHeaders().add("Access-Control-Allow-Headers","Content-Type,Authorization");
     }
 }
